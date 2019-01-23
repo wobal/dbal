@@ -1,5 +1,5 @@
 {
-    "name": "portphp/dbal",
+    "name": "wobal/dbal",
     "description": "Doctrine DBAL adapter for Port",
     "license": "MIT",
     "homepage": "https://github.com/portphp",
@@ -23,7 +23,7 @@
         "docs": "https://docs.portphp.org"
     },
     "require": {
-        "portphp/portphp": "1.2.0",
+        "portphp/portphp": "^1.2.0",
         "doctrine/dbal": "^2.4"
     },
     "autoload": {
