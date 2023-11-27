@@ -127,7 +127,8 @@ class DbalReader implements CountableReader
     public function next()
     {
         $this->key++;
-        $this->data = $this->stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $this->stmt->executeQuery();
+        $this->data = $result->fetchAssociative();
     }
 
     /**
@@ -159,8 +160,8 @@ class DbalReader implements CountableReader
             $this->stmt = $this->prepare($this->sql, $this->params);
         }
         if (0 !== $this->key) {
-            $this->stmt->execute();
-            $this->data = $this->stmt->fetch(\PDO::FETCH_ASSOC);
+            $result = $this->stmt->executeQuery();
+            $this->data = $result->fetchAssociative();
             $this->key = 0;
         }
     }
@@ -187,9 +188,9 @@ class DbalReader implements CountableReader
     private function doCalcRowCount()
     {
         $statement = $this->prepare(sprintf('SELECT COUNT(*) FROM (%s) AS port_cnt', $this->sql), $this->params);
-        $statement->execute();
-
-        $this->rowCount = (int) $statement->fetchColumn(0);
+        $result = $this->$statement->executeQuery();
+        
+        $this->rowCount = (int) $result->fetchFirstColumn();
     }
 
     /**
