@@ -183,7 +183,7 @@ class DbalReader implements CountableReader
                 if (null === $this->stmt) {
                     $this->rewind();
                 }
-                $this->rowCount = $this->stmt->rowCount();
+                $this->rowCount = $this->resultSet->rowCount();
             }
         }
 
@@ -194,8 +194,8 @@ class DbalReader implements CountableReader
     {
         $statement = $this->prepare(sprintf('SELECT COUNT(*) FROM (%s) AS port_cnt', $this->sql), $this->params);
         $result = $statement->executeQuery();
-        
-        $this->rowCount = (int) $result->fetchFirstColumn();
+
+        $this->rowCount =  (int) $result->fetchOne();
     }
 
     /**
