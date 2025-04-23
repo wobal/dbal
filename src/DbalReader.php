@@ -4,6 +4,7 @@ namespace Port\Dbal;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Statement;
+use Doctrine\DBAL\Result;
 use Port\Reader\CountableReader;
 
 /**
@@ -50,6 +51,11 @@ class DbalReader implements CountableReader
      * @var string
      */
     private $key;
+
+    /**
+     * @var Result
+     */
+    private $resultSet;
 
     /**
      * @param Connection $connection
@@ -127,8 +133,7 @@ class DbalReader implements CountableReader
     public function next()
     {
         $this->key++;
-        $result = $this->stmt->executeQuery();
-        $this->data = $result->fetchAssociative();
+        $this->data = $this->resultSet->fetchAssociative();
     }
 
     /**
@@ -160,8 +165,8 @@ class DbalReader implements CountableReader
             $this->stmt = $this->prepare($this->sql, $this->params);
         }
         if (0 !== $this->key) {
-            $result = $this->stmt->executeQuery();
-            $this->data = $result->fetchAssociative();
+            $this->resultSet = $this->stmt->executeQuery();
+            $this->data = $this->resultSet->fetchAssociative();
             $this->key = 0;
         }
     }
@@ -188,7 +193,7 @@ class DbalReader implements CountableReader
     private function doCalcRowCount()
     {
         $statement = $this->prepare(sprintf('SELECT COUNT(*) FROM (%s) AS port_cnt', $this->sql), $this->params);
-        $result = $this->$statement->executeQuery();
+        $result = $statement->executeQuery();
         
         $this->rowCount = (int) $result->fetchFirstColumn();
     }
