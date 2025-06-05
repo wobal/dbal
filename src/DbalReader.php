@@ -174,7 +174,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         if (null === $this->rowCount) {
             if ($this->rowCountCalculated) {
