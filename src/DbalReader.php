@@ -112,7 +112,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function current()
+    public function current(): mixed
     {
         if (null === $this->data) {
             $this->rewind();
@@ -124,7 +124,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function next()
+    public function next(): void
     {
         $this->key++;
         $this->data = $this->stmt->fetch(\PDO::FETCH_ASSOC);
@@ -133,7 +133,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->key;
     }
@@ -141,7 +141,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function valid()
+    public function valid(): bool
     {
         if (null === $this->data) {
             $this->rewind();
@@ -153,7 +153,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         if (null === $this->stmt) {
             $this->stmt = $this->prepare($this->sql, $this->params);
@@ -168,7 +168,7 @@ class DbalReader implements CountableReader
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         if (null === $this->rowCount) {
             if ($this->rowCountCalculated) {
